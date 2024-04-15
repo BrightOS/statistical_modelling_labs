@@ -1,0 +1,601 @@
+---
+title: "Отчёт по лабораторной работе №2"
+author: "Шайхльбарин Денис"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## 1. Точечные оценки параметров методом моментов
+
+Создаем выборки
+```{r}
+# Генерируем выборки
+set.seed(0)
+x1 = rnorm(800, 65, 78) # Нормальный закон распределения
+x2 = rexp(700, 30) # Показательный ЗР
+x3 = rbinom(700, 45, 0.8) # Биномиальный ЗР
+```
+Исходные данные:
+```{r}
+str(x1)
+str(x2)
+str(x3)
+```
+Для нормального закона:
+```{r}
+a = mean(x1); a
+si = sd(x1); si
+```
+Для показательного закона:
+```{r}
+lam = 1 / mean(x2); lam
+```
+Для биномиального закона:
+```{r}
+p = mean(x3) / 45; p
+n = mean(x3) / 0.8; n
+```
+Оценки, полученные с применением метода моментов, являются очень состоятельными, то есть сходятся по вероятности ко всем оцениваемым параметрам. Согласно центральной предельной теореме, значения параметров из многократно извлеченных выборок при росте этого числа извлечений все точнее приближаются к значениям параметов в генеральной совокупности.
+\n
+\n
+\n
+
+
+## 2.1. Сравнение способов оценивания (НЗР)
+Нормальный закон распределения, 10 величин
+```{r}
+n <- 10 # 10 величин
+varCount <- 20 # 20 выборок
+foo = rnorm # НЗР
+xs <- foo(n * varCount, 65, 78) # count, m, sigma
+M <- matrix(xs, varCount, n)
+```
+Метод моментов
+```{r}
+result111 <- apply(M, 1, function(x)(2 / n)*sum(x))
+str(result111)
+```
+Метод наибольшего правдоподобия
+```{r}
+result112 <- apply(M, 1, function(x)((n+1) / n)*max(x))
+str(result112)
+```
+Метод порядковых статистик
+```{r}
+result113 <- apply(M, 1, function(x)(2*quantile(x, c(0.5))))
+str(result113)
+```
+График
+```{r}
+plot(result111, type = "l", ylim = c(0, 350))
+lines(result111, col = "red")
+par(new = T)
+plot(result112, type = "l", ylim = c(0, 350))
+lines(result112, col = "blue")
+par(new = T)
+plot(result113, type = "l", ylim = c(0, 350))
+lines(result113, col = "green")
+```
+```{r, echo = FALSE}
+par(new = F)
+```
+Среднеквадратичное отклонение:
+```{r}
+p111 <- sd(result111)
+p112 <- sd(result112)
+p113 <- sd(result113)
+```
+Наибольшее:
+```{r}
+max111 <- max(result111)
+max112 <- max(result112)
+max113 <- max(result113)
+```
+Наименьшее:
+```{r}
+min111 <- min(result111)
+min112 <- min(result112)
+min113 <- min(result113)
+```
+Размах:
+```{r}
+R111 <- max111-min111
+R112 <- max112-min112
+R113 <- max113-min113
+```
+
+.
+
+-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-
+
+.
+
+Нормальный закон распределения, 40 величин
+```{r}
+n <- 40 # 40 величин
+varCount <- 20 # 20 выборок
+foo = rnorm # НЗР
+xs <- foo(n * varCount, 65, 78) # count, m, sigma
+M <- matrix(xs, varCount, n)
+```
+Метод моментов
+```{r}
+result121 <- apply(M, 1, function(x)(2 / n)*sum(x))
+str(result121)
+```
+Метод наибольшего правдоподобия
+```{r}
+result122 <- apply(M, 1, function(x)((n+1) / n)*max(x))
+str(result122)
+```
+Метод порядковых статистик
+```{r}
+result123 <- apply(M, 1, function(x)(2*quantile(x, c(0.5))))
+str(result123)
+```
+График
+```{r}
+plot(result121, type = "l", ylim = c(0, 350))
+lines(result121, col = "red")
+par(new = T)
+plot(result122, type = "l", ylim = c(0, 350))
+lines(result122, col = "blue")
+par(new = T)
+plot(result123, type = "l", ylim = c(0, 350))
+lines(result123, col = "green")
+```
+```{r, echo = FALSE}
+par(new = F)
+```
+Среднеквадратичное отклонение:
+```{r}
+p121 <- sd(result121)
+p122 <- sd(result122)
+p123 <- sd(result123)
+```
+Наибольшее:
+```{r}
+max121 <- max(result121)
+max122 <- max(result122)
+max123 <- max(result123)
+```
+Наименьшее:
+```{r}
+min121 <- min(result121)
+min122 <- min(result122)
+min123 <- min(result123)
+```
+Размах:
+```{r}
+R121 <- max121-min121
+R122 <- max122-min122
+R123 <- max123-min123
+```
+
+.
+
+-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-
+
+.
+
+Нормальный закон распределения, 160 величин
+```{r}
+n <- 160 # 160 величин
+varCount <- 20 # 20 выборок
+foo = rnorm # НЗР
+xs <- foo(n * varCount, 65, 78) # count, m, sigma
+M <- matrix(xs, varCount, n)
+```
+Метод моментов
+```{r}
+result131 <- apply(M, 1, function(x)(2 / n)*sum(x))
+str(result131)
+```
+Метод наибольшего правдоподобия
+```{r}
+result132 <- apply(M, 1, function(x)((n+1) / n)*max(x))
+str(result132)
+```
+Метод порядковых статистик
+```{r}
+result133 <- apply(M, 1, function(x)(2*quantile(x, c(0.5))))
+str(result133)
+```
+График
+```{r}
+plot(result131, type = "l", ylim = c(0, 350))
+lines(result131, col = "red")
+par(new = T)
+plot(result132, type = "l", ylim = c(0, 350))
+lines(result132, col = "blue")
+par(new = T)
+plot(result133, type = "l", ylim = c(0, 350))
+lines(result133, col = "green")
+```
+```{r, echo = FALSE}
+par(new = F)
+```
+Среднеквадратичное отклонение:
+```{r}
+p131 <- sd(result131)
+p132 <- sd(result132)
+p133 <- sd(result133)
+```
+Наибольшее:
+```{r}
+max131 <- max(result131)
+max132 <- max(result132)
+max133 <- max(result133)
+```
+Наименьшее:
+```{r}
+min131 <- min(result131)
+min132 <- min(result132)
+min133 <- min(result133)
+```
+Размах:
+```{r}
+R131 <- max131-min131
+R132 <- max132-min132
+R133 <- max133-min133
+```
+
+Сравнение отклонений, наибольших, наименьших и размахов:
+```{r}
+n1_1 <- c(p111, p112, p113, max111, max112, max113, min111, min112, min113, R111, R112, R113)
+n1_2 <- c(p121, p122, p123, max121, max122, max123, min121, min122, min123, R121, R122, R123)
+n1_3 <- c(p131, p132, p133, max131, max132, max133, min131, min132, min133, R131, R132, R133)
+
+result_norm <- cbind(n1_1, n1_2, n1_3)
+rownames(result_norm) <- c('p1', 'p2', 'p3', 'max1', 'max2', 'max3', 'min1', 'min2', 'min3', 'R1', 'R2', 'R3')
+result_norm
+```
+Сравнение среднеквадратических отклонений:
+```{r}
+v1_1 <- c(p111, p112, p113)
+v1_2 <- c(p121, p122, p123)
+v1_3 <- c(p131, p132, p133)
+
+plot(v1_1, col = "red", main = "Cравнение среднеквадратических отклонений", ylab = "", xlab = "СКО1 - красная, СКО2 - синяя, СКО3 - зелёная", type = "l", ylim = c(0, 70))
+par(new = T)
+plot(v1_2, col = "blue", ylab = "", xlab = "", type = "l", ylim = c(0, 70))
+par(new = T)
+plot(v1_3, col = "green", ylab = "", xlab = "", type = "l", ylim = c(0, 70))
+```
+```{r, echo = FALSE}
+par(new = F)
+```
+При росте числа наблюдений в выборке уменьшается стандартное отклонение и размах. Проявляется свойство несмещенности оценки, равенства её математического ожидания оцениваемому параметру.
+
+## 2.2. Сравнение способов оценивания (ПЗР)
+Показательный (экспоненциальный) закон распределения, 10 величин
+```{r}
+n <- 10 # 10 величин
+varCount <- 20 # 20 выборок
+foo = rexp # ПЗР
+xs <- foo(n * varCount, 30) # count, lamda
+M <- matrix(xs, varCount, n)
+```
+Метод моментов
+```{r}
+result211 <- apply(M, 1, function(x)(2 / n)*sum(x))
+str(result211)
+```
+Метод наибольшего правдоподобия
+```{r}
+result212 <- apply(M, 1, function(x)((n+1) / n)*max(x))
+str(result212)
+```
+Метод порядковых статистик
+```{r}
+result213 <- apply(M, 1, function(x)(2*quantile(x, c(0.5))))
+str(result213)
+```
+График
+```{r}
+plot(result211, type = "l", ylim = c(0, 0.5))
+lines(result211, col = "red")
+par(new = T)
+plot(result212, type = "l", ylim = c(0, 0.5))
+lines(result212, col = "blue")
+par(new = T)
+plot(result213, type = "l", ylim = c(0, 0.5))
+lines(result213, col = "green")
+```
+```{r, echo = FALSE}
+par(new = F)
+```
+Среднеквадратичное отклонение:
+```{r}
+p211 <- sd(result211)
+p212 <- sd(result212)
+p213 <- sd(result213)
+```
+Наибольшее:
+```{r}
+max211 <- max(result211)
+max212 <- max(result212)
+max213 <- max(result213)
+```
+Наименьшее:
+```{r}
+min211 <- min(result211)
+min212 <- min(result212)
+min213 <- min(result213)
+```
+Размах:
+```{r}
+R211 <- max211-min211
+R212 <- max212-min212
+R213 <- max213-min213
+```
+
+.
+
+-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-
+
+.
+
+Показательный (экспоненциальный) закон распределения, 40 величин
+```{r}
+n <- 40 # 40 величин
+varCount <- 20 # 20 выборок
+foo = rexp # ПЗР
+xs <- foo(n * varCount, 30) # count, lamda
+M <- matrix(xs, varCount, n)
+```
+Метод моментов
+```{r}
+result221 <- apply(M, 1, function(x)(2 / n)*sum(x))
+str(result221)
+```
+Метод наибольшего правдоподобия
+```{r}
+result222 <- apply(M, 1, function(x)((n+1) / n)*max(x))
+str(result222)
+```
+Метод порядковых статистик
+```{r}
+result223 <- apply(M, 1, function(x)(2*quantile(x, c(0.5))))
+str(result223)
+```
+График
+```{r}
+plot(result221, type = "l", ylim = c(0, 0.5))
+lines(result221, col = "red")
+par(new = T)
+plot(result222, type = "l", ylim = c(0, 0.5))
+lines(result222, col = "blue")
+par(new = T)
+plot(result223, type = "l", ylim = c(0, 0.5))
+lines(result223, col = "green")
+```
+```{r, echo = FALSE}
+par(new = F)
+```
+Среднеквадратичное отклонение:
+```{r}
+p221 <- sd(result221)
+p222 <- sd(result222)
+p223 <- sd(result223)
+```
+Наибольшее:
+```{r}
+max221 <- max(result221)
+max222 <- max(result222)
+max223 <- max(result223)
+```
+Наименьшее:
+```{r}
+min221 <- min(result221)
+min222 <- min(result222)
+min223 <- min(result223)
+```
+Размах:
+```{r}
+R221 <- max221-min221
+R222 <- max222-min222
+R223 <- max223-min223
+```
+
+.
+
+-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-={X}=-
+
+.
+
+Показательный (экспоненциальный) закон распределения, 160 величин
+```{r}
+n <- 160 # 160 величин
+varCount <- 20 # 20 выборок
+foo = rexp # ПЗР
+xs <- foo(n * varCount, 30) # count, lamda
+M <- matrix(xs, varCount, n)
+```
+Метод моментов
+```{r}
+result231 <- apply(M, 1, function(x)(2 / n)*sum(x))
+str(result231)
+```
+Метод наибольшего правдоподобия
+```{r}
+result232 <- apply(M, 1, function(x)((n+1) / n)*max(x))
+str(result232)
+```
+Метод порядковых статистик
+```{r}
+result233 <- apply(M, 1, function(x)(2*quantile(x, c(0.5))))
+str(result233)
+```
+График
+```{r}
+plot(result231, type = "l", ylim = c(0, 0.5))
+lines(result231, col = "red")
+par(new = T)
+plot(result232, type = "l", ylim = c(0, 0.5))
+lines(result232, col = "blue")
+par(new = T)
+plot(result233, type = "l", ylim = c(0, 0.5))
+lines(result233, col = "green")
+```
+```{r, echo = FALSE}
+par(new = F)
+```
+Среднеквадратичное отклонение:
+```{r}
+p231 <- sd(result231)
+p232 <- sd(result232)
+p233 <- sd(result233)
+```
+Наибольшее:
+```{r}
+max231 <- max(result231)
+max232 <- max(result232)
+max233 <- max(result233)
+```
+Наименьшее:
+```{r}
+min231 <- min(result231)
+min232 <- min(result232)
+min233 <- min(result233)
+```
+Размах:
+```{r}
+R231 <- max231-min231
+R232 <- max232-min232
+R233 <- max233-min233
+```
+
+Сравнение отклонений, наибольших, наименьших и размахов:
+```{r}
+n2_1 <- c(p211, p212, p213, max211, max212, max213, min211, min212, min213, R211, R212, R213)
+n2_2 <- c(p221, p222, p223, max221, max222, max223, min221, min222, min223, R221, R222, R223)
+n2_3 <- c(p231, p232, p233, max231, max232, max233, min231, min232, min233, R231, R232, R233)
+
+result_norm <- cbind(n2_1, n2_2, n2_3)
+rownames(result_norm) <- c('p1', 'p2', 'p3', 'max1', 'max2', 'max3', 'min1', 'min2', 'min3', 'R1', 'R2', 'R3')
+result_norm
+```
+Сравнение среднеквадратических отклонений:
+```{r}
+v2_1 <- c(p211, p212, p213)
+v2_2 <- c(p221, p222, p223)
+v2_3 <- c(p231, p232, p233)
+
+plot(v2_1, col = "red", main = "Cравнение среднеквадратических отклонений", ylab = "", xlab = "СКО1 - красная, СКО2 - синяя, СКО3 - зелёная", type = "l", ylim = c(0, 0.1))
+par(new = T)
+plot(v2_2, col = "blue", ylab = "", xlab = "", type = "l", ylim = c(0, 0.1))
+par(new = T)
+plot(v2_3, col = "green", ylab = "", xlab = "", type = "l", ylim = c(0, 0.1))
+```
+```{r, echo = FALSE}
+par(new = F)
+```
+На всех трех графиках сравнения оценок кривая СКО2 (синяя) принимает значения больше, чем СКО1 и СКО3 Элементы множества СКО2 определяются максимальными значениями каждой из колонок матрицы M.
+\n
+\n
+\n
+
+
+## 3. Проверка на нормальность распределения
+ВВП Индии в млрд. $ за 1960-2022 гг.
+https://www.kaggle.com/datasets/dheerajmukati/india-gdp-19602022
+```{r}
+z <- read.csv(file = "India_GDP_1960-2022.csv", header = TRUE);
+x <- z$GDP
+hist(x, main = "Распределение ВВП", xlab = "ВВП", ylab = "Частота")
+
+library(sm)
+sm.density(x, model = "Normal", xlab = "Выборка", ylab = "Функция плотности распределения")
+
+library(nortest)
+lillie.test(x)
+```
+По результатам теста (значение p значительно меньше 0.05) можем сделать вывод, что наша нулевая гепотеза о выборке из генеральной совокупности с нормальным распределением отвергается.
+\n
+\n
+
+
+## 4. Изучение корреляционной зависимости двух случайных величин
+Статистика цен на ноутбуки по их характеристикам
+https://www.kaggle.com/datasets/mohidabdulrehman/laptop-price-dataset
+```{r}
+z <- read.csv(file = "laptop_data.csv", header = TRUE);
+# Объём ОЗУ
+x <- z$Ram
+# Цена
+y <- z$Price
+
+```
+
+```{r}
+cor.test(x, y)
+#Спирмена при 95%
+cor.test(x, y, method = "spearman", conf.level = 0.95)
+#Спирмена при 99%
+cor.test(x, y, method = "spearman", conf.level = 0.99)
+```
+
+Коэффициент корреляции Пирсона при 95% доверительной вероятности значение получилось больше 0.7, что говорит о сильной (тесной) связи. Так как коэффициент положительный, то связь между признаками является прямой, то есть увеличение одного признака приводит к увеличению другого.
+
+
+Корреляция Спирмена является ранговой, то есть для оценки силы связи используются не численные значения, а соответствующие им ранги.
+Гипотеза Н0: коэффициет Спирмена незначимый, равен нулю.
+Гипотеза Н1: коэффициет значимый, отличен от нуля.
+
+Найдем интересующие нас табличные значения t, которые будут больше, чем расчитанные как при 95%, так и при 99% доверительной вероятности, следовательно, отвергнуть нулевую гипотезу мы не можем.
+
+```{r}
+qt(0.95, 19)
+qt(0.99, 19)
+# Кендалла при 95%
+cor.test(x, y, method = "kendall")
+# Кендалла при 99%
+cor.test(x, y, method = "kendall", conf.level = 0.99)
+```
+
+Для проверки значимости рангового коэффициента Кендала, то есть для проверки существенности корреляционной связи, выдвигают гипотезы:
+Гипотеза Н0: коэфициент незначимый, t = 0
+Гипотеза Н1: коэфициент значимый, t != 0
+
+по таблице функций Лапласа определяем значения z.\
+для 95% - 1.729133\
+для 99% - 2.539483\
+Табличные значения снова оказались больше, следовательно, нулевую гипотезу о незначимости коэффициента Кендалла на заданных уровнях значимости, к сожалению, не отклонить.
+\n
+\n
+\n
+
+
+## 5. Коэффициент конкордации
+Значение коэффициента конкордации может находится в диапазоне от 0 до 1. Если W = 0, считается, что мнения экспертов не согласованны. Если W = 1, то оценки экспертов полностью согласованны.
+```{r}
+# Загружаем таблицу, содержащую оценку шестью экспертами дистрибутивов Линукса
+chem <- read.table(file = "Lab2.txt", header = FALSE)
+chem
+rownames(chem) <- c("Sousou no Fireren", "Fullmetal Alchemist: Brotherhood", "Steins;Gate", "Gintama*", "Shingeki no Kyojin Season 3 Part 2", "Gintama'", "Bleach: Sennen Kessen-hen", "Ginga Eiyuu Densetsu", "Gintama': Enchousen", "Kaguya-sama wa Kokurasetai: Ultra Romantic", "Fruits Basket: The Final", "Gintama.", "Gintama", "Clannad: After Story", "Koe no Katachi", "Kusuriya no Hitorigoto", "3-gatsu no Lion 2nd Season", "Code GeassL Hangyaku no Lelouch R2", "Hunter x Hunter", "Gintama: The Final")
+chem
+
+library(vegan)
+kendall.global(chem, nperm = 999, mult = "holm")
+
+qchisq(0.95, 20)
+qchisq(0.99, 20)
+
+```
+Коэффициент конкордации = 0.4834476 -> согласованность средняя.
+
+\n
+
+Гипотеза Н0: коэффициент конкордации незначимый, равен нулю.\
+Гипотеза Н1: коэффициент является значимым.
+
+\n
+
+Хи расчётное = 55.11302.\
+Хи табличное при доверительной вероятности 95% = 31.41043.\
+Хи табличное при доверительной вероятности 99% = 37.56623.
+
+\n
+
+Расчетное больше табличных, следовательно, нулевую гипотезу о незначимости коэффициента W можно отклонить.
